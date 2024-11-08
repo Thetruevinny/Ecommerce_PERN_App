@@ -1,0 +1,32 @@
+{
+  "name": "ecommerce-mvc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./Controller/index.js",
+  "scripts": {
+    "start": "nodemon index.js --ignore ./view"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "csurf": "^1.10.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-session": "^1.18.1",
+    "formidable": "^2.1.1",
+    "helmet": "^8.0.0",
+    "pg": "^8.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.39.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.8"
+  }
+}
