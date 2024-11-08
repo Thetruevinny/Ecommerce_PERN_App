@@ -9,7 +9,7 @@ function Root() {
         <>
             <Navigation />
             <Name />
-            {/* <Outlet /> */}
+            <Outlet />
         </>
     );
 }

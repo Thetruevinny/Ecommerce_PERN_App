@@ -1,0 +1,14 @@
+.products {
+    display: grid;
+    width: 100%;
+    column-gap: 5%;
+    row-gap: 5%;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.product {
+    border: 1px solid blueviolet;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 0 0.2rem;
+}
