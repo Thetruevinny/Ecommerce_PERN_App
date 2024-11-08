@@ -21,7 +21,10 @@ const productsRouter = require('./Routes/productsRouter');
 
 
 // Setting up various middleware
-app.use(cors());
+// Change Cors restrictions to match your desires.
+app.use(cors({
+    origin: 'http://localhost:3000'
+}));
 app.use(parser());
 app.use(helmet());
 app.use(express.json());

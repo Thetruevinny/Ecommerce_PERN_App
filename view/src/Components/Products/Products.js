@@ -1,10 +1,16 @@
-import React from 'react';
-import { useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
 import { selectProducts } from './ProductsSlice';
 import Styles from "./Products.module.css";
+import { loadProducts } from './ProductsSlice';
 
 function Products() {
     const products = useSelector(selectProducts);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(loadProducts());
+    },[])
 
     return (
         <div className={Styles.products}>
