@@ -1,0 +1,12 @@
+.name {
+    justify-content: center;
+    background-color: blueviolet;
+    margin-top: 0;
+}
+
+.name h1 {
+    color: white;
+    margin-top: 0;
+    text-align: center;
+}
+

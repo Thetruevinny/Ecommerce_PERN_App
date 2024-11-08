@@ -1,0 +1,26 @@
+.nav {
+    background-color: blueviolet;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0;
+    border-bottom: 1px solid white;
+}
+
+.nav ul {
+    width: 40%;
+    display: inline-flex;
+    justify-content: space-between;
+    list-style: none;
+    padding-left: 0;
+    padding-right: 1.7rem;
+    
+}
+
+.nav li {
+    color: white;
+    text-decoration: none;
+}
+
+.nav NavLink {
+    text-decoration: none;
+}
