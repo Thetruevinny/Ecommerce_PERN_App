@@ -16,22 +16,20 @@ const {comparePasswords, getUserById, getUserByEmail} = require('../Model/querie
 const { validationCheck, validationHandler } = require('./util/util');
 // Setting csurf middleware for csurftokens
 const csurfMiddleware = csurf({
-    cookie: {
-      sameSite: "none"
-    }
+    cookie: true
 });
 
 // Import Routers
 const productsRouter = require('./Routes/productsRouter');
 const registerRouter = require('./Routes/registerRouter');
 
-
-// Setting up various middleware
-
 // Change Cors restrictions to match your desires.
 app.use(cors({
-    origin: 'http://localhost:3000'
+    origin: 'http://localhost:3000',
+    credentials: true,
 }));
+
+// Setting up other middleware
 app.use(parser());
 app.use(helmet());
 app.use(express.json());
@@ -87,10 +85,14 @@ const PORT = process.env.PORT || 8000;
 const apiRouter = express.Router();
 app.use(apiRouter);
 apiRouter.use('/api/products', productsRouter);
+apiRouter.get('/api/csrfToken', csurfMiddleware, (req, res) => {
+    res.status(200).json({ csrfToken: req.csrfToken() });
+});
 apiRouter.use('/api/register', registerRouter);
-apiRouter.post('/api/login', validationCheck(), validationHandler, passport.authenticate('local', {failureRedirect: 'http://localhost:3000/login'}), (req,res) => {
+apiRouter.post('/api/login', csurfMiddleware, validationCheck(), validationHandler, passport.authenticate('local', {failureRedirect: 'http://localhost:3000/login'}), (req,res) => {
     res.status(200).redirect('http://localhost:3000/');
 });
+
 // Initialising Application
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
