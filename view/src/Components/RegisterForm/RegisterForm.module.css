@@ -1,0 +1,51 @@
+/* Adjust the form container */
+.register {
+    display: inline-flex;
+    align-items: center;
+    height: auto;
+    width: 100%;
+    flex-direction: column;
+}
+
+.register h2 {
+    color: white;
+}
+
+/* Form styling */
+.register form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: blueviolet;
+}
+
+/* Row styling for label and input alignment */
+.register form section {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Label styling */
+.register form label {
+    width: 30%; /* Adjust this width to align labels better */
+    text-align: right;
+    color: white;
+}
+
+/* Input styling */
+.register form input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}

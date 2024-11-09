@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { getProducts } = require('../../Model/queries');
 
+// Retrieve all products from db
 router.get('/', async (req, res) => {
     try {
         const { rows } = await getProducts();
