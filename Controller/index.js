@@ -42,7 +42,7 @@ app.use(session({
         secure: false,
         sameSite: 'lax'
     },
-    resave: false,
+    resave: true,
     saveUninitialized: false
 }));
 
@@ -86,14 +86,28 @@ const PORT = process.env.PORT || 8000;
 // Setting up routes
 const apiRouter = express.Router();
 app.use(apiRouter);
+// Route for Products
 apiRouter.use('/api/products', productsRouter);
+// Route for Oauth
+apiRouter.use('/api/oauth', oauthRouter);
+// Obtaining CSRF token
 apiRouter.get('/api/csrfToken', csurfMiddleware, (req, res) => {
     res.status(200).json({ csrfToken: req.csrfToken() });
 });
+// Route for Registering
 apiRouter.use('/api/register', registerRouter);
-apiRouter.use('/api/oauth', oauthRouter);
+// Route for Login
 apiRouter.post('/api/login', csurfMiddleware, validationCheck(), validationHandler, passport.authenticate('local', {failureRedirect: 'http://localhost:3000/login'}), (req,res) => {
     res.status(200).redirect('http://localhost:3000/');
+});
+// Route for checking user is authenticated.
+apiRouter.get('/api/check', (req, res) => {
+    console.log(req.isAuthenticated());
+    if (req.user) {
+        res.send({result: true});
+    } else {
+        res.send({result: false})
+    }
 });
 
 // Initialising Application
