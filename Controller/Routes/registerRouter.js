@@ -21,8 +21,8 @@ router.post('/', validationCheck(), validationHandler, checkUserName, async (req
 
             const hashedPassword = await bcrypt.hash(password, salt);
 
-            await registerUser(res, email, hashedPassword);
-
+            await registerUser(email, hashedPassword);
+            res.status(201).redirect('http://localhost:3000/login');
 
         } catch (err) {
             console.log(err);

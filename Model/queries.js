@@ -28,14 +28,14 @@ const checkUserName = async (req, res, next) => {
 };
 
 // Adding user to db.
-const registerUser = async (res, email, password) => {
+const registerUser = async (email, password) => {
     query = {
         text: "INSERT INTO users (email, password, admin) VALUES ($1, $2, false) ",
         values: [email, password]
     }
 
     await pool.query(query);
-    res.status(201).redirect('http://localhost:3000/login');
+    return;
 };
 
 // Get a User by Id
@@ -83,6 +83,27 @@ const comparePasswords = async (password, hash) => {
     return false;
 }
 
+const oauthRegisterCheck = async (profile) => {
+    const email = profile.emails[0].value;
+    console.log(email);
+    try {
+        const query = {
+            text: 'SELECT email FROM users WHERE email= ($1);',
+            values: [ email ]
+        };
+        const {rows} = await pool.query(query);
+        const user = rows[0];
+        console.log(user);
+        if (user) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (err) {
+
+    }
+};
+
 
 module.exports = {
     getProducts,
@@ -91,4 +112,5 @@ module.exports = {
     getUserById,
     comparePasswords,
     getUserByEmail,
+    oauthRegisterCheck,
 };

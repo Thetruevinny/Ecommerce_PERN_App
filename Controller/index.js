@@ -22,6 +22,7 @@ const csurfMiddleware = csurf({
 // Import Routers
 const productsRouter = require('./Routes/productsRouter');
 const registerRouter = require('./Routes/registerRouter');
+const oauthRouter = require('./Routes/oauthRouter');
 
 // Change Cors restrictions to match your desires.
 app.use(cors({
@@ -63,6 +64,7 @@ passport.deserializeUser(async (id, done) => {
 
 });
 
+// Passport Strategies
 passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, async function (email, password, done) {
     try {
         const user = await getUserByEmail(email);
@@ -89,6 +91,7 @@ apiRouter.get('/api/csrfToken', csurfMiddleware, (req, res) => {
     res.status(200).json({ csrfToken: req.csrfToken() });
 });
 apiRouter.use('/api/register', registerRouter);
+apiRouter.use('/api/oauth', oauthRouter);
 apiRouter.post('/api/login', csurfMiddleware, validationCheck(), validationHandler, passport.authenticate('local', {failureRedirect: 'http://localhost:3000/login'}), (req,res) => {
     res.status(200).redirect('http://localhost:3000/');
 });

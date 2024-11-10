@@ -6,6 +6,10 @@ import { selectToken } from '../LoginForm/TokenSlice';
 function RegisterForm() {
     const url = `http://localhost:50423/api/register`;
     const csrfToken = useSelector(selectToken);
+    const GoogleHandler = async () => {
+        window.location.href = 'http://localhost:50423/api/oauth/google';
+    }
+
     return (
         <div className={Styles.register}>
             <h2>Register</h2>
@@ -21,6 +25,10 @@ function RegisterForm() {
                 <input type='hidden' name='_csrf' value={csrfToken} />
                 <button type="submit">Sign up</button>
             </form>
+            <h2>Or Register via:</h2>
+            <div>
+                <button onClick={GoogleHandler}>Google</button>
+            </div>
         </div>
         
     );
