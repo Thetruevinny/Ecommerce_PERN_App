@@ -6,10 +6,40 @@
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
 
+/* .product {
+    border: 1px solid blueviolet;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 0 0.2rem;
+    background-color: white;
+}
+
+.product button {
+    position: end;
+} */
+
+/* Products.module.css */
+
 .product {
     border: 1px solid blueviolet;
     border-radius: 1rem;
     padding: 1rem;
     margin: 0 0.2rem;
     background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product button {
+    align-self: flex-end;
+    margin-top: 0.1rem;
+    border: none;
+    border: 2px solid blueviolet;
+    border-left: 2px solid blueviolet;
+    padding: 0.5rem;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 0.3rem;
 }

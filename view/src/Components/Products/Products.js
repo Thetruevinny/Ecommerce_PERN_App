@@ -3,10 +3,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectProducts } from './ProductsSlice';
 import Styles from "./Products.module.css";
 import { loadProducts } from './ProductsSlice';
+import { addCart } from '../Cart/CartSlice';
 
 function Products() {
     const products = useSelector(selectProducts);
     const dispatch = useDispatch();
+    const onClickHandler = (event) => {
+        const product = products.filter(product => product.id === event.id);
+        dispatch(addCart(product[0]));
+    };
 
     useEffect(() => {
         dispatch(loadProducts());
@@ -20,6 +25,7 @@ function Products() {
                     <p>{product.name}</p>
                     <p>Price: {product.price}</p>
                     <p>Product Type: {product.category}</p>
+                    <button id={product.id} onClick={onClickHandler}>+</button>
                 </div>
             ))}
         </div>

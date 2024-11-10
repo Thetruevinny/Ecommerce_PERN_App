@@ -4,7 +4,7 @@ import styles from './Name.module.css';
 function Name() {
     return (
         <div className={styles.name}>
-            <h1>Frost</h1>
+            <h1>Avini</h1>
         </div>
     );
 }
