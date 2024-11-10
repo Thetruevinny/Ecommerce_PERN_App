@@ -49,3 +49,19 @@
     width: 100%;
     box-sizing: border-box;
 }
+
+.register button {
+    cursor: pointer;
+    margin-top: 0;
+}
+
+/* Styling for google button */
+.smallLogo {
+    max-width: 2.5rem;
+    max-height: 2.5rem;
+    margin-top: 0;
+}
+
+.gooogle {
+    margin-top: 0;
+}

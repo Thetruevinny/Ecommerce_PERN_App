@@ -4,6 +4,12 @@ import { selectProducts } from './ProductsSlice';
 import Styles from "./Products.module.css";
 import { loadProducts } from './ProductsSlice';
 import { addCart } from '../Cart/CartSlice';
+import redTshirt from '../../Photos/RedTshirt.png';
+import blueTshirt from '../../Photos/BlueTshirt.png';
+import redChinos from '../../Photos/RedChinos.png';
+import blueChinos from '../../Photos/BlueChinos.png';
+import redCap from  '../../Photos/RedCap.png';
+import blueCap from  '../../Photos/BlueCap.png';
 
 function Products() {
     const products = useSelector(selectProducts);
@@ -14,6 +20,8 @@ function Products() {
         dispatch(addCart(product[0]));
     };
 
+    const imgArray = [redTshirt, blueTshirt, redChinos, blueChinos, redCap, blueCap];
+
     useEffect(() => {
         dispatch(loadProducts());
     },[])
@@ -22,7 +30,7 @@ function Products() {
         <div className={Styles.products}>
             {products.map(product => (
                 <div className={Styles.product} key={product.name}>
-                    <img alt={product.name}></img>
+                    <img alt={product.name} src={imgArray[product.id - 1]}></img>
                     <p>{product.name}</p>
                     <p>Price: £{product.price}</p>
                     <p>Product Type: {product.category}</p>

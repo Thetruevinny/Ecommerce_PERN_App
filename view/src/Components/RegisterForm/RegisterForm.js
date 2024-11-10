@@ -2,6 +2,7 @@ import React from 'react';
 import Styles from "./RegisterForm.module.css";
 import { useSelector } from 'react-redux';
 import { selectToken } from '../LoginForm/TokenSlice';
+import googleLogo from '../../Photos/Google.webp';
 
 function RegisterForm() {
     const url = `http://localhost:50423/api/register`;
@@ -26,9 +27,7 @@ function RegisterForm() {
                 <button type="submit">Sign up</button>
             </form>
             <h2>Or Register via:</h2>
-            <div>
-                <button onClick={GoogleHandler}>Google</button>
-            </div>
+            <button onClick={GoogleHandler}><img src={googleLogo} alt='Google Logo' className={Styles.smallLogo}></img></button>
         </div>
         
     );

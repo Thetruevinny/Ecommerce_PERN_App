@@ -12,12 +12,8 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://localhost:50423/api/oauth/google/callback", // Updated callback URL
     scope: ['email', 'profile'],
 }, async (accessToken, refreshToken, profile, done) => {
-    console.log("Access Token:", accessToken);
-    console.log("Profile:", profile);
     try {
-        console.log("point Reached");
         const result = await oauthRegisterCheck(profile);
-        console.log(result);
         if (result) {
             const user = await getUserByEmail(profile.emails[0].value);
             if (user) {

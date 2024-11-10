@@ -3,6 +3,7 @@ import Styles from "./LoginForm.module.css";
 import {useNavigate} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadToken, selectToken } from './TokenSlice';
+import googleLogo from '../../Photos/Google.webp';
 
 function LoginForm() {
     const url = `http://localhost:50423/api/login`;
@@ -10,13 +11,19 @@ function LoginForm() {
     const csrfToken = useSelector(selectToken)
     const dispatch = useDispatch();
 
+    // Handle Register button click
     const onClickHandler = (event) => {
         navigate('/register');
     }
-
+    // To Load CSRF token for use in hiden input
     useEffect(() => {
         dispatch(loadToken());
     }, []);
+
+    // Handle Oauth
+    const GoogleHandler = async () => {
+        window.location.href = 'http://localhost:50423/api/oauth/google';
+    }
 
     return (
         <div className={Styles.login}>
@@ -33,6 +40,8 @@ function LoginForm() {
                 <input type='hidden' name='_csrf' value={csrfToken} />
                 <button type="submit">Sign in</button>
             </form>
+            <h2 className={Styles.alternatives}>Or Login Via:</h2>
+            <button onClick={GoogleHandler} className={Styles.google}><img src={googleLogo} alt='Google Logo' className={Styles.smallLogo}></img></button>
             <button onClick={onClickHandler}>Register</button>
         </div>
         

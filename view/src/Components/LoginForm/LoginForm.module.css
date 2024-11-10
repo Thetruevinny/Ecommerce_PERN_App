@@ -58,5 +58,17 @@
 
 /* Register Button */
 .login button {
-    margin-top: 2rem;
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+/* Style for Google Button */
+.smallLogo {
+    max-width: 2.5rem;
+    max-height: 2.5;
+    margin-top: 0;
+}
+
+.alternatives {
+    margin-bottom: 0;
 }
