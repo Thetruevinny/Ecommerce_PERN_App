@@ -1,0 +1,14 @@
+/* Cart.module.css */
+.cart {
+    position: fixed;
+    bottom: 10px; /* Adds a small margin from the bottom */
+    left: 0;
+    width: 100%;
+    background-color: lightgray; /* Optional styling */
+    text-align: center;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow for effect */
+}
+
+.cart button {
+    width: 100%;
+}
