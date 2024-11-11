@@ -16,7 +16,6 @@ function Products() {
     const dispatch = useDispatch();
     const onClickHandler = (event) => {
         const product = products.filter(product => String(product.id) === String(event.target.id));
-        console.log(product[0]);
         dispatch(addCart(product[0]));
     };
 

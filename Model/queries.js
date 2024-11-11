@@ -1,3 +1,4 @@
+const { text } = require('express');
 const pool = require('./db');
 const bcrypt = require('bcrypt');
 
@@ -83,6 +84,7 @@ const comparePasswords = async (password, hash) => {
     return false;
 }
 
+// Checking if user is already registered wtih oauth route
 const oauthRegisterCheck = async (profile) => {
     const email = profile.emails[0].value;
     console.log(email);
@@ -104,6 +106,63 @@ const oauthRegisterCheck = async (profile) => {
     }
 };
 
+// Creating an order
+const createOrder = async (userId, cart, quantities) => {
+    const total = cart.reduce((acc, product) => {
+        return (acc += quantities[product.name] * product.price);
+    }, 0);
+    try {
+        query = {
+            text: 'INSERT INTO orders(user_id, total) VALUES ($1, $2) RETURNING id;',
+            values: [userId, total]
+        }
+        const {rows} = await pool.query(query);
+        const id  = rows[0].id;
+        return id;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+// Changing product quantities after an order
+const changeProductQty = async (cart, quantities) => {
+    try {
+        const productsArray = cart.map(product => {
+            return `(${product.id}, ${quantities[product.name]})`;
+        });
+        const productsString = productsArray.join(',');
+        await pool.query(`UPDATE products AS p SET quantity = p.quantity - p2.quantity FROM (VALUES ${productsString}) AS p2(id, quantity) WHERE p2.id = p.id;`);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// Create new rows in orders_products for each new order
+const createOrderProduct = async (id, cart, quantities) => {
+    const stringArray = [];
+    const ordersArray = [];
+    cart.forEach(product => {
+        ordersArray.push(id, product.id, quantities[product.name]);
+    });
+    for (let i = 0; i < ordersArray.length; i++) {
+        if ((i + 1) % 3 === 0) {
+            stringArray.push(`($${i-1}, $${i}, $${i+1})`);
+        }
+    };
+
+    const orderString = stringArray.join(',');
+    const orderQuery = {
+        text: 'INSERT INTO orders_products(order_id, product_id, quantity) VALUES ' + orderString,
+        values: ordersArray
+    };
+
+    try {
+        await pool.query(orderQuery);
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 
 module.exports = {
     getProducts,
@@ -113,4 +172,7 @@ module.exports = {
     comparePasswords,
     getUserByEmail,
     oauthRegisterCheck,
+    createOrder,
+    changeProductQty,
+    createOrderProduct,
 };

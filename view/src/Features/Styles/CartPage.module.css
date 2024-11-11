@@ -7,7 +7,18 @@
 .cartPage h2 {
     color: white;
 }
-.cartPage form {
+/* .cartPage form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 1rem;
+    width: 30%;
+    height: auto;
+    padding: 1rem;
+} */
+.form {
     display: flex;
     flex-direction: column;
     align-items: center;

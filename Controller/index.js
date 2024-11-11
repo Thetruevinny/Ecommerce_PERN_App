@@ -12,8 +12,9 @@ const parser = require('cookie-parser');
 const csurf = require('csurf');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const {comparePasswords, getUserById, getUserByEmail} = require('../Model/queries');
+const { comparePasswords, getUserById, getUserByEmail, createOrder, changeProductQty, createOrderProduct} = require('../Model/queries');
 const { validationCheck, validationHandler } = require('./util/util');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 // Setting csurf middleware for csurftokens
 const csurfMiddleware = csurf({
     cookie: true
@@ -23,6 +24,7 @@ const csurfMiddleware = csurf({
 const productsRouter = require('./Routes/productsRouter');
 const registerRouter = require('./Routes/registerRouter');
 const oauthRouter = require('./Routes/oauthRouter');
+const checkoutRouter = require('./Routes/checkoutRouter');
 
 // Change Cors restrictions to match your desires.
 app.use(cors({
@@ -33,7 +35,7 @@ app.use(cors({
 // Setting up other middleware
 app.use(parser());
 app.use(helmet());
-app.use(express.json());
+app.use('/api', express.json());
 app.use(express.urlencoded());
 app.use(session({
     secret: process.env.SECRET,
@@ -102,11 +104,40 @@ apiRouter.post('/api/login', csurfMiddleware, validationCheck(), validationHandl
 });
 // Route for checking user is authenticated.
 apiRouter.get('/api/check', (req, res) => {
-    console.log(req.isAuthenticated());
     if (req.user) {
         res.send({result: true});
     } else {
         res.send({result: false})
+    }
+});
+
+// Route for Checkout using stripe
+apiRouter.use('/api/create-checkout-session', checkoutRouter);
+
+// Webhook Endpoint from stripe
+apiRouter.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+    const payload = req.body;
+    const sig = req.headers['stripe-signature'];
+
+    try {
+        const event = stripe.webhooks.constructEvent(payload, sig, process.env.STRIPE_WEBHOOK_SECRET);
+
+        if (event.type === 'checkout.session.completed') {
+            const session = event.data.object;
+            const cart = JSON.parse(session.metadata.cart);
+            const quantities = JSON.parse(session.metadata.quantities);
+            const userId = JSON.parse(session.metadata.userId);
+
+            // Handle your order fulfillment, e.g., save to database, update inventory, etc.
+            const id = await createOrder(userId, cart, quantities);
+            await changeProductQty(cart, quantities);
+            await createOrderProduct(id, cart, quantities);
+        }
+
+        res.status(200).send('Received');
+    } catch (err) {
+        console.log(`Webhook Error: ${err.message}`);
+        res.status(400).send(`Webhook Error: ${err.message}`);
     }
 });
 
