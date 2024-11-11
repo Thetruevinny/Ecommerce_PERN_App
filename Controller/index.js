@@ -70,20 +70,22 @@ passport.deserializeUser(async (id, done) => {
 });
 
 // Passport Local Strategy for non-oauth route
-passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, async function (email, password, done) {
-    try {
-        const user = await getUserByEmail(email);
-        const verified = await comparePasswords(password, user.password);
-        if (!user) {
-            return done(null, false);
-        } else if (!verified) {
-            return done(null, false);
-        } else {
-            return done(null, user);
-        };  
-    } catch (err) {
-        return done(err);
-    }
+passport.use(
+    new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, 
+        async function (email, password, done) {
+            try {
+                const user = await getUserByEmail(email);
+                const verified = await comparePasswords(password, user.password);
+                if (!user) {
+                    return done(null, false);
+                } else if (!verified) {
+                    return done(null, false);
+                } else {
+                    return done(null, user);
+                };  
+            } catch (err) {
+                return done(err);
+            }
 }));
 
 const PORT = process.env.PORT || 8000;
@@ -102,7 +104,13 @@ apiRouter.get('/api/csrfToken', csurfMiddleware, (req, res) => {
 // Route for Registering
 apiRouter.use('/api/register', registerRouter);
 // Route for Login
-apiRouter.post('/api/login', csurfMiddleware, validationCheck(), validationHandler, passport.authenticate('local', {failureRedirect: 'http://localhost:3000/login'}), (req,res) => {
+apiRouter.post(
+    '/api/login', 
+    csurfMiddleware, 
+    validationCheck(), 
+    validationHandler, 
+    passport.authenticate('local', {failureRedirect: 'http://localhost:3000/login'}), 
+    (req,res) => {
     res.status(200).redirect('http://localhost:3000/');
 });
 // Route for checking user is authenticated.

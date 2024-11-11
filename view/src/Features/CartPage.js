@@ -39,7 +39,7 @@ function CartPage() {
         const json = await response.json();
         setVerified(json.result);
         if (!json.result) {
-            setTimeout(() => navigate('/login'), 1000);
+            setTimeout(() => navigate('/login'), 6000);
         }
     };
 
