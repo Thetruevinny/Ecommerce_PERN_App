@@ -1,12 +1,12 @@
-/* Cart.module.css */
+/* Cart Element Styling on Products page  */
 .cart {
     position: fixed;
-    bottom: 10px; /* Adds a small margin from the bottom */
+    bottom: 10px;
     left: 0;
     width: 100%;
-    background-color: lightgray; /* Optional styling */
+    background-color: lightgray;
     text-align: center;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow for effect */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .cart button {

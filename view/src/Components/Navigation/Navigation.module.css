@@ -1,26 +1,60 @@
+
+
+/* Navigation styling */
 .nav {
-    background-color: blueviolet;
-    align-items: center;
+    background-color: #4c1d95;
+    padding: 1rem;
+    display: flex;
     justify-content: center;
-    margin-bottom: 0;
-    border-bottom: 1px solid white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid #7c3aed;
 }
 
+/* List styling */
 .nav ul {
-    width: 40%;
-    display: inline-flex;
-    justify-content: space-between;
+    display: flex;
+    gap: 5rem;
     list-style: none;
-    padding-left: 0;
-    padding-right: 1.7rem;
-    
+    padding: 0;
+    margin: 0;
+    align-items: center;
 }
 
-.nav li {
-    color: white;
+/* Link styling */
+.nav a {
+    color: #fff;
     text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
 
-.nav NavLink {
-    text-decoration: none;
+.nav a:hover {
+    color: #d1d5db;
+}
+
+/* Active link styling */
+.nav a.active {
+    color: #a5b4fc; 
+    font-weight: 600;
+    border-bottom: 2px solid #a5b4fc;
+    padding-bottom: 0.2rem;
+}
+
+/* Button styling for Logout */
+.nav button {
+    background: none;
+    border: 1px solid #7c3aed;
+    color: #fff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav button:hover {
+    background-color: #7c3aed;
+    color: #fff;
 }

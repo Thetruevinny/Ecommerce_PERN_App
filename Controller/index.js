@@ -15,6 +15,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const { comparePasswords, getUserById, getUserByEmail, createOrder, changeProductQty, createOrderProduct} = require('../Model/queries');
 const { validationCheck, validationHandler } = require('./util/util');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 // Setting csurf middleware for csurftokens
 const csurfMiddleware = csurf({
     cookie: true
@@ -35,6 +36,8 @@ app.use(cors({
 // Setting up other middleware
 app.use(parser());
 app.use(helmet());
+
+// For all endpoinnts other than stripe webhook
 app.use('/api', express.json());
 app.use(express.urlencoded());
 app.use(session({
@@ -66,7 +69,7 @@ passport.deserializeUser(async (id, done) => {
 
 });
 
-// Passport Strategies
+// Passport Local Strategy for non-oauth route
 passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, async function (email, password, done) {
     try {
         const user = await getUserByEmail(email);
@@ -139,6 +142,17 @@ apiRouter.post('/webhook', express.raw({ type: 'application/json' }), async (req
         console.log(`Webhook Error: ${err.message}`);
         res.status(400).send(`Webhook Error: ${err.message}`);
     }
+});
+
+// Handle Logout
+apiRouter.post('/api/logout', (req, res) => {
+    console.log('Point Reached');
+    req.logout((err) => {
+        console.log('Point Reached');
+        if (err) return res.sendStatus(500);
+        console.log('Point Reached');
+        res.status(200).json({ message: 'Logged out' });
+    });
 });
 
 // Initialising Application

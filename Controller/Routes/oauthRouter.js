@@ -6,6 +6,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 
+// Configuring a new google strategy
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -35,7 +36,6 @@ passport.use(new GoogleStrategy({
     } catch (err) {
         done(null, false);
     }
-    // done(null, profile); // Proceed to serializeUser
 }));
 
 // Initial request to Google OAuth
@@ -44,9 +44,9 @@ router.get('/google', passport.authenticate('google'));
 // Callback route after Google OAuth
 router.get('/google/callback', passport.authenticate('google', {
     failureRedirect: 'http://localhost:3000/register',
-    session: true, // Set to true if session persistence is needed
+    session: true, 
 }), async (req, res) => {
-    // Redirect to frontend after successful registration or login
+    // Redirect to homepage after successful registration
     res.redirect('http://localhost:3000/'); 
 
 });

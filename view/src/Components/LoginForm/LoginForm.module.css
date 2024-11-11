@@ -1,9 +1,14 @@
-/* Adjust the form container */
+/* Styles for login page form */
+/* Container styling */
 .login {
+    width: 100%;
+    max-width: 400px;
+    padding: 1.5rem;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    background-color: blueviolet;
     display: inline-flex;
     align-items: center;
-    height: auto;
-    width: 100%;
     flex-direction: column;
 }
 
@@ -68,6 +73,7 @@
     max-height: 2.5;
     margin-top: 0;
 }
+
 
 .alternatives {
     margin-bottom: 0;

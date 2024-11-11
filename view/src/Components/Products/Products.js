@@ -11,6 +11,7 @@ import blueChinos from '../../Photos/BlueChinos.png';
 import redCap from  '../../Photos/RedCap.png';
 import blueCap from  '../../Photos/BlueCap.png';
 
+// Creating Products component to render on homepage
 function Products() {
     const products = useSelector(selectProducts);
     const dispatch = useDispatch();

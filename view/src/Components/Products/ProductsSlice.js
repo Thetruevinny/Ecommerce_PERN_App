@@ -1,9 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// const initialState = [
 
-// ];
-
+// Create async thunk to retrieve all products from db
 export const loadProducts = createAsyncThunk(
     'products/loadProducts',
     async () => {

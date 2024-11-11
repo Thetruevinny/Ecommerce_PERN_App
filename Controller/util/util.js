@@ -1,5 +1,6 @@
 const { body, validationResult } = require('express-validator');
 
+// Input validation checks below:
 const validationCheck = () => {
     return [
         body('email')

@@ -1,12 +1,23 @@
+/* Name styling */
 .name {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    background-color: blueviolet;
-    margin-top: 0;
+    background: linear-gradient(135deg, #4c1d95, #7c3aed); /* Violet gradient */
+    padding: 2rem 1.5rem; /* Adds space around the name */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 0; /* Adds spacing around the component */
 }
 
+/* Text styling */
 .name h1 {
-    color: white;
-    margin-top: 0;
+    color: #ffffff;
+    font-size: 2.5rem;
+    font-weight: 700;
     text-align: center;
+    margin: 0;
+    letter-spacing: 2px; /* Adds spacing between letters */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease; /* Smooth scaling effect on hover */
 }
-

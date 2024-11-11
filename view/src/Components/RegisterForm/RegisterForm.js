@@ -4,9 +4,12 @@ import { useSelector } from 'react-redux';
 import { selectToken } from '../LoginForm/TokenSlice';
 import googleLogo from '../../Photos/Google.webp';
 
+// Creating register form for registry page
 function RegisterForm() {
     const url = `http://localhost:50423/api/register`;
     const csrfToken = useSelector(selectToken);
+
+    // Oauth register call
     const GoogleHandler = async () => {
         window.location.href = 'http://localhost:50423/api/oauth/google';
     }
@@ -15,14 +18,14 @@ function RegisterForm() {
         <div className={Styles.register}>
             <h2>Register</h2>
             <form action={url} method='POST'>
-                <seciton>
+                <section>
                     <label for="email">Email: </label>
                     <input id='email' name='email' type='email' autoComplete='email' required />
-                </seciton>
-                <seciton>
+                </section>
+                <section>
                     <label for="password">Password: </label>
                     <input id='password' name='password' type='password' autoComplete='password' required />
-                </seciton>
+                </section>
                 <input type='hidden' name='_csrf' value={csrfToken} />
                 <button type="submit">Sign up</button>
             </form>

@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const {validationCheck, validationHandler} = require('../util/util');
 require('dotenv').config();
 
-// Registering user
+// Registering user with validation checking
 router.post('/', validationCheck(), validationHandler, checkUserName, async (req, res) => {
 
     const { email, password } = req.body;

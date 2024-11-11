@@ -5,10 +5,11 @@ import { getCart } from './CartSlice';
 import { useNavigate } from 'react-router';
 
 function Cart() {
-
+    // Set-up states and navigate hook
     const cartItems = useSelector(getCart);
     const navigate = useNavigate();
 
+    // When cart button clicked at bottom of products page navigates to cart page
     const onClickHandler = () => {
         navigate('/cart');
     }

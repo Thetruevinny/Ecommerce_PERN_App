@@ -1,0 +1,42 @@
+/* Success Page Styling */
+.success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: top;
+    height: 100vh;
+    background-color: #4c1d95;
+    color: #ffffff;
+    text-align: center;
+    padding: 2rem;
+}
+
+/* Success heading */
+.success h1 {
+    font-size: 3rem;
+    margin: 0;
+    font-weight: 700;
+    color: #a5b4fc;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Success message text */
+.success p {
+    font-size: 1.2rem;
+    margin: 1rem 0;
+    color: #d1d5db;
+}
+
+/* Celebration image styling */
+.success img {
+    max-width: 250px;
+    margin-top: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+/* Hover effect for the image */
+.success img:hover {
+    transform: scale(1.05);
+}

@@ -1,9 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// const initialState = [
-
-// ];
-
+// Create async thunk for calling back-end to retrieve CSRF token
 export const loadToken = createAsyncThunk(
     'tokens/loadToken',
     async () => {

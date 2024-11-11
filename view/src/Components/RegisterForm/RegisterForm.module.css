@@ -1,10 +1,15 @@
-/* Adjust the form container */
+/* Form container */
 .register {
     display: inline-flex;
     align-items: center;
     height: auto;
     width: 100%;
     flex-direction: column;
+    max-width: 400px;
+    padding: 1.5rem;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    background-color: blueviolet;
 }
 
 .register h2 {
@@ -35,7 +40,7 @@
 
 /* Label styling */
 .register form label {
-    width: 30%; /* Adjust this width to align labels better */
+    width: 30%;
     text-align: right;
     color: white;
 }
@@ -49,7 +54,6 @@
     width: 100%;
     box-sizing: border-box;
 }
-
 .register button {
     cursor: pointer;
     margin-top: 0;
@@ -65,3 +69,4 @@
 .gooogle {
     margin-top: 0;
 }
+
