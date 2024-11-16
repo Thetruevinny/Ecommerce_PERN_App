@@ -18,7 +18,7 @@ function Products() {
     const dispatch = useDispatch();
     
     // Handle adding products to cart
-    const onClickHandler = (event) => {
+    const addToCart = (event) => {
         // Finding specific product that was clicked form product list
         const product = products.filter(product => String(product.id) === String(event.target.id));
         
@@ -40,7 +40,10 @@ function Products() {
                     <p>{product.name}</p>
                     <p>Price: £{product.price}</p>
                     <p>Product Type: {product.category}</p>
-                    <button id={product.id} onClick={onClickHandler}>+</button>
+                    <div className={Styles.buttons}>
+                        <button id={product.id} >More Info</button>
+                        <button id={product.id} onClick={addToCart}>Add Cart</button>
+                    </div>
                 </div>
             ))}
         </div>

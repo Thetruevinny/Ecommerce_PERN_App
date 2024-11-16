@@ -7,7 +7,7 @@
     row-gap: 2rem;
     padding: 2rem;
     background-color: blueviolet;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
 }
 
 .product {
@@ -41,9 +41,19 @@
     font-weight: 500;
 }
 
+/* Button Styling */
+
+.buttons {
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+}
+
 .product button {
     align-self: center;
     margin-top: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
     padding: 0.6rem 1rem;
     background-color: #7e57c2;
     color: white;
@@ -57,3 +67,8 @@
     background-color: #5e35b1;
 }
 
+@media only screen and (max-width: 450px) {
+    .products {
+        grid-template-columns: repeat(auto-fill, minmax(20%, 100%)); 
+    }
+}
