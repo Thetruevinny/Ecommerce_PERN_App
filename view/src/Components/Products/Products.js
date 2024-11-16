@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectProducts } from './ProductsSlice';
 import Styles from "./Products.module.css";
 import { loadProducts } from './ProductsSlice';
-import { addCart } from '../Cart/CartSlice';
+import { addCart, getCart } from '../Cart/CartSlice';
 import redTshirt from '../../Photos/RedTshirt.png';
 import blueTshirt from '../../Photos/BlueTshirt.png';
 import redChinos from '../../Photos/RedChinos.png';
@@ -14,9 +14,15 @@ import blueCap from  '../../Photos/BlueCap.png';
 // Creating Products component to render on homepage
 function Products() {
     const products = useSelector(selectProducts);
+    const cart = useSelector(getCart);
     const dispatch = useDispatch();
+    
+    // Handle adding products to cart
     const onClickHandler = (event) => {
+        // Finding specific product that was clicked form product list
         const product = products.filter(product => String(product.id) === String(event.target.id));
+        
+        // Add product to cart
         dispatch(addCart(product[0]));
     };
 

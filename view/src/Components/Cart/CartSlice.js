@@ -6,14 +6,20 @@ const cartSlice = createSlice({
     reducers: {
         addCart: (state, action) => {
             const product = action.payload;
-            state.push(product);
-            
+            // Check if item is in the cart
+            const check = state.filter(item => String(product.id) === String(item.id));
+            if (check.length === 0) {
+                state.push(product);
+            } 
+        },
+        refreshCart: (state) => {
+            return state = [];
         }
     }
 });
 
 export const getCart = (state) => state.cart; 
 
-export const {addCart} = cartSlice.actions;
+export const {addCart, refreshCart} = cartSlice.actions;
 
 export default cartSlice.reducer;

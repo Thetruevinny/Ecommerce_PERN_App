@@ -1,12 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Styles from './Navigation.module.css';
+import {useDispatch} from 'react-redux';
+import { refreshCart } from '../Cart/CartSlice';
 
 // Creating Navbar in Root component
 function Navigation() {
     // Checking if user is logged in
     const [verified, setVerified] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     // Function call to api to see if user is verfied 
     const checkAuth = async () => {
@@ -30,6 +33,8 @@ function Navigation() {
         });
         if (response.ok) {
             setVerified(false);
+            localStorage.clear();
+            dispatch(refreshCart());
             navigate('/login');
         }
     }

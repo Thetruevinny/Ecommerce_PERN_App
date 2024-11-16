@@ -39,6 +39,10 @@ function CartPage() {
         const json = await response.json();
         setVerified(json.result);
         if (!json.result) {
+            cart.forEach(product => {
+                const productString = JSON.stringify(product); 
+                localStorage.setItem(`Product_${product.id}`, productString);  
+            });
             setTimeout(() => navigate('/login'), 6000);
         }
     };

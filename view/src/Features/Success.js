@@ -11,7 +11,7 @@ function Success() {
     useEffect(() => {
         setTimeout(() => {
             navigate('/');
-        }, 60000)
+        }, 5000)
     }, []);
 
     return (
