@@ -33,7 +33,7 @@ function CartPage() {
 
     // Check if the user is authenticated if not redirects to login
     const checkAuth = async () => {
-        const response = await fetch('http://localhost:50423/api/check', {
+        const response = await fetch('http://localhost:50423/api/check/auth', {
             credentials: 'include',
         });
         const json = await response.json();
@@ -43,7 +43,7 @@ function CartPage() {
                 const productString = JSON.stringify(product); 
                 localStorage.setItem(`Product_${product.id}`, productString);  
             });
-            setTimeout(() => navigate('/login'), 6000);
+            setTimeout(() => navigate('/login'), 2000);
         }
     };
 

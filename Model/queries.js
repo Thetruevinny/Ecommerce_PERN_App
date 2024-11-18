@@ -87,7 +87,6 @@ const comparePasswords = async (password, hash) => {
 // Checking if user is already registered wtih oauth route
 const oauthRegisterCheck = async (profile) => {
     const email = profile.emails[0].value;
-    console.log(email);
     try {
         const query = {
             text: 'SELECT email FROM users WHERE email= ($1);',
@@ -95,7 +94,6 @@ const oauthRegisterCheck = async (profile) => {
         };
         const {rows} = await pool.query(query);
         const user = rows[0];
-        console.log(user);
         if (user) {
             return true;
         } else {
@@ -163,6 +161,12 @@ const createOrderProduct = async (id, cart, quantities) => {
     }
 };
 
+// Deleting product
+const deleteProduct = (id) => pool.query({
+    text: 'DELETE FROM products WHERE id = $1',
+    values: [id]
+});
+
 
 module.exports = {
     getProducts,
@@ -175,4 +179,5 @@ module.exports = {
     createOrder,
     changeProductQty,
     createOrderProduct,
+    deleteProduct,
 };

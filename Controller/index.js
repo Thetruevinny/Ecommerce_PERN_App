@@ -26,6 +26,7 @@ const productsRouter = require('./Routes/productsRouter');
 const registerRouter = require('./Routes/registerRouter');
 const oauthRouter = require('./Routes/oauthRouter');
 const checkoutRouter = require('./Routes/checkoutRouter');
+const checkRouter = require('./Routes/checkRouter');
 
 // Change Cors restrictions to match your desires.
 app.use(cors({
@@ -113,14 +114,8 @@ apiRouter.post(
     (req,res) => {
     res.status(200).redirect('http://localhost:3000/');
 });
-// Route for checking user is authenticated.
-apiRouter.get('/api/check', (req, res) => {
-    if (req.user) {
-        res.send({result: true});
-    } else {
-        res.send({result: false})
-    }
-});
+// Route for checking user is authenticated/admin.
+apiRouter.use('/api/check', checkRouter);
 
 // Route for Checkout using stripe
 apiRouter.use('/api/create-checkout-session', checkoutRouter);
@@ -154,11 +149,8 @@ apiRouter.post('/webhook', express.raw({ type: 'application/json' }), async (req
 
 // Handle Logout
 apiRouter.post('/api/logout', (req, res) => {
-    console.log('Point Reached');
     req.logout((err) => {
-        console.log('Point Reached');
         if (err) return res.sendStatus(500);
-        console.log('Point Reached');
         res.status(200).json({ message: 'Logged out' });
     });
 });

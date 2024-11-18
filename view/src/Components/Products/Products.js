@@ -15,11 +15,12 @@ import blueCap from  '../../Photos/BlueCap.png';
 // Creating Products component to render on homepage
 function Products() {
     let products = useSelector(selectProducts);
-    const cart = useSelector(getCart);
+    // const cart = useSelector(getCart);
     let category = useSelector(getCategory);
     const dispatch = useDispatch();
     const [detailView, setDetailView] = useState(false);
     const [productId, setProductId] = useState(null);
+    const [admin, setAdmin] = useState(false);
     
     // Handle adding products to cart
     const addToCart = (event) => {
@@ -65,10 +66,53 @@ function Products() {
         }
     };
 
+    // Img array for products
     const imgArray = [redTshirt, blueTshirt, redChinos, blueChinos, redCap, blueCap];
 
+    // Checking if user is an admin
+    const checkAdmin = async () => {
+        try {
+
+            const response = await fetch('http://localhost:50423/api/check/admin', {
+                credentials: 'include',
+            });
+    
+            if (response.ok) {
+                const json = await response.json();
+                console.log(json.result);
+                setAdmin(json.result);
+            }
+        } catch (err) {
+            console.log(err);
+
+        }
+        
+        
+    }
+
+    // Handles deletion of a product when admin requests it.
+    const deleteProduct = async (event) => {
+        try {
+            const response = await fetch(`http://localhost:50423/api/products/${event.target.id}`, {
+                method: 'DELETE',
+            })
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                alert('Error with the request.');
+            }
+        } catch (err) {
+            console.log(err);
+            alert(err);
+        }
+    }
+
     useEffect(() => {
+        // Load products to display
         dispatch(loadProducts());
+
+        // Check if user is admin
+        checkAdmin();
     },[])
 
     if (category !== 'none') {
@@ -88,6 +132,12 @@ function Products() {
                         <button id={product.id} onClick={changeWidth}>{detailView && ((String(productId) === String(product.id)))? 'Less Info' : 'More Info'}</button>
                         <button id={product.id} onClick={addToCart}>Add Cart</button>
                     </div>
+                    {admin ? (
+                        <div className={Styles.buttons}>
+                            <button id={product.id} >Modify Item</button>
+                            <button id={product.id} onClick={deleteProduct}>Delete Item</button>
+                        </div>
+                    ) : null}
                 </div>
             ))}
         </div>

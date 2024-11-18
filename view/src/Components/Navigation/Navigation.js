@@ -13,7 +13,7 @@ function Navigation() {
 
     // Function call to api to see if user is verfied 
     const checkAuth = async () => {
-        const response = await fetch('http://localhost:50423/api/check', {
+        const response = await fetch('http://localhost:50423/api/check/auth', {
             credentials: 'include',
         });
         const json = await response.json();
