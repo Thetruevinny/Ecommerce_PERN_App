@@ -4,6 +4,7 @@ import { selectProducts } from './ProductsSlice';
 import Styles from "./Products.module.css";
 import { loadProducts } from './ProductsSlice';
 import { addCart, getCart } from '../Cart/CartSlice';
+import { getCategory } from '../Categories/CategoriesSlice';
 import redTshirt from '../../Photos/RedTshirt.png';
 import blueTshirt from '../../Photos/BlueTshirt.png';
 import redChinos from '../../Photos/RedChinos.png';
@@ -13,8 +14,9 @@ import blueCap from  '../../Photos/BlueCap.png';
 
 // Creating Products component to render on homepage
 function Products() {
-    const products = useSelector(selectProducts);
+    let products = useSelector(selectProducts);
     const cart = useSelector(getCart);
+    let category = useSelector(getCategory);
     const dispatch = useDispatch();
     const [detailView, setDetailView] = useState(false);
     const [productId, setProductId] = useState(null);
@@ -29,19 +31,6 @@ function Products() {
     };
 
     // Handle Changing width when more info button clicked
-    // const changeWidth = (event) => {
-    //     const productDiv = document.getElementById(event.target.id);
-    //     if (productDiv.style.width === '200%') {
-    //         productDiv.style.width = null;
-    //         productDiv.style.zIndex = null;
-    //         setDetailView(false);
-    //     } else {
-    //         productDiv.style.width = '200%';
-    //         productDiv.style.zIndex = 1;
-    //         setDetailView(true);
-    //         setProductId(event.target.id);
-    //     }
-    // }
     const changeWidth = (event) => {
         const productDiv = document.getElementById(event.target.id);
         const productRect = productDiv.getBoundingClientRect();
@@ -81,6 +70,10 @@ function Products() {
     useEffect(() => {
         dispatch(loadProducts());
     },[])
+
+    if (category !== 'none') {
+        products = products.filter(product => product.category === category);
+    }
 
     return (
         <div className={Styles.products}>
