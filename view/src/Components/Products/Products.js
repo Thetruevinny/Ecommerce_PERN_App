@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectProducts } from './ProductsSlice';
 import Styles from "./Products.module.css";
 import { loadProducts } from './ProductsSlice';
-import { addCart, getCart } from '../Cart/CartSlice';
+import { addCart } from '../Cart/CartSlice';
 import { getCategory } from '../Categories/CategoriesSlice';
 import redTshirt from '../../Photos/RedTshirt.png';
 import blueTshirt from '../../Photos/BlueTshirt.png';
@@ -11,13 +11,14 @@ import redChinos from '../../Photos/RedChinos.png';
 import blueChinos from '../../Photos/BlueChinos.png';
 import redCap from  '../../Photos/RedCap.png';
 import blueCap from  '../../Photos/BlueCap.png';
+import { useNavigate } from 'react-router';
 
 // Creating Products component to render on homepage
 function Products() {
     let products = useSelector(selectProducts);
-    // const cart = useSelector(getCart);
     let category = useSelector(getCategory);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [detailView, setDetailView] = useState(false);
     const [productId, setProductId] = useState(null);
     const [admin, setAdmin] = useState(false);
@@ -107,6 +108,16 @@ function Products() {
         }
     }
 
+    // Handles modifying a product
+    const modify = (event) => {
+        const id = event.target.id;
+        navigate(`modify/${id}`);
+    }
+
+    const create = (event) => {
+        navigate('create');
+    }
+
     useEffect(() => {
         // Load products to display
         dispatch(loadProducts());
@@ -134,12 +145,17 @@ function Products() {
                     </div>
                     {admin ? (
                         <div className={Styles.buttons}>
-                            <button id={product.id} >Modify Item</button>
+                            <button id={product.id} onClick={modify}>Modify Item</button>
                             <button id={product.id} onClick={deleteProduct}>Delete Item</button>
                         </div>
                     ) : null}
                 </div>
             ))}
+            {admin ? (
+                < div className={Styles.product}>  
+                    <button className={Styles.create} onClick={create}>Create Product</button>  
+                </div>
+            ) : null}
         </div>
     );
 

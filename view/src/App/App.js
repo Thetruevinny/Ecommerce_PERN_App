@@ -7,6 +7,8 @@ import Login from '../Features/Login';
 import Register from '../Features/Register';
 import CartPage from '../Features/CartPage';
 import Success from '../Features/Success';
+import ModifyProduct from '../Features/ModifyProduct';
+import CreateProduct from '../Features/CreateProduct';
 
 // Set-up router and various routes
 const router = createBrowserRouter(createRoutesFromElements(
@@ -16,6 +18,8 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path='register' element={<Register />} />
     <Route path='cart' element={<CartPage />} />
     <Route path='success' element={<Success />} />
+    <Route path='modify/:id' element={<ModifyProduct />} />
+    <Route path='create' element={<CreateProduct />} />
   </Route>
 ));
 

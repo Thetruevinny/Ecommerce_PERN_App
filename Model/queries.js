@@ -167,6 +167,57 @@ const deleteProduct = (id) => pool.query({
     values: [id]
 });
 
+// Modifying a product
+const modifyProduct = (id, price, quantity, description ) => {
+    const val_array = [];
+    let paramString = '';
+
+    // Check to see what fields were filled in and update the relevant strings accordingly
+    if (price !== '0') {
+        paramString += 'price = ($1)';
+        val_array.push(price);
+    }
+    if (quantity !== '0') {
+        if (paramString) {
+            paramString += ', quantity = (quantity + ($2))';
+        } else {
+            paramString += 'quantity = (quantity + ($1))';
+        }
+        
+        val_array.push(quantity);
+    }
+    if (description !== 'Unchanged') {
+        const numVal = val_array.length + 1;
+        if (paramString) {
+            paramString += `, description = $${numVal} `;
+        } else {
+            paramString += `description = $${numVal} `;
+        }
+        val_array.push(description);
+    }
+    // Check the length of the array to find the value for the final parameter
+    const finalVal = val_array.length + 1;
+
+    // Add id to the end of the value array
+    val_array.push(id);
+
+    query = {
+        text: 'UPDATE products SET ' + paramString +  `WHERE id = $${finalVal}`,
+        values: val_array,
+    };
+
+    return pool.query(query);
+};
+
+// Create new product
+const createProduct = (name, price, category, quantity, description) => {
+    query = {
+        text: 'INSERT INTO products (name, price, category, quantity, description) VALUES ($1, $2, $3, $4, $5);',
+        values: [name, price, category, quantity, description]
+    };
+    return pool.query(query);
+}
+
 
 module.exports = {
     getProducts,
@@ -180,4 +231,6 @@ module.exports = {
     changeProductQty,
     createOrderProduct,
     deleteProduct,
+    modifyProduct,
+    createProduct,
 };

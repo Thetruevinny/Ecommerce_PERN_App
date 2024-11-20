@@ -16,11 +16,6 @@ const { comparePasswords, getUserById, getUserByEmail, createOrder, changeProduc
 const { validationCheck, validationHandler } = require('./util/util');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-// Setting csurf middleware for csurftokens
-const csurfMiddleware = csurf({
-    cookie: true
-});
-
 // Import Routers
 const productsRouter = require('./Routes/productsRouter');
 const registerRouter = require('./Routes/registerRouter');
@@ -37,6 +32,11 @@ app.use(cors({
 // Setting up other middleware
 app.use(parser());
 app.use(helmet());
+
+// Setting csurf middleware for csurftokens
+const csurfMiddleware = csurf({
+    cookie: true
+});
 
 // For all endpoinnts other than stripe webhook
 app.use('/api', express.json());
@@ -74,12 +74,14 @@ passport.deserializeUser(async (id, done) => {
 passport.use(
     new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, 
         async function (email, password, done) {
+            console.log(email);
+            console.log(password);
             try {
                 const user = await getUserByEmail(email);
+                console.log(user);
+                if (!user) return done(null, false);
                 const verified = await comparePasswords(password, user.password);
-                if (!user) {
-                    return done(null, false);
-                } else if (!verified) {
+                if (!verified) {
                     return done(null, false);
                 } else {
                     return done(null, user);

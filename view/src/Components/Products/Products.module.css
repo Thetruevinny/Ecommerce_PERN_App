@@ -69,6 +69,14 @@
     background-color: #5e35b1;
 }
 
+/* Styling Create Button */
+
+.create {
+    height: 100%;
+    width: 100%;
+    font-size: 2rem;
+}
+
 @media only screen and (max-width: 450px) {
     .products {
         grid-template-columns: repeat(auto-fill, minmax(20%, 100%)); 

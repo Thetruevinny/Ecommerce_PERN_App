@@ -1,0 +1,62 @@
+/* Styles for login page form */
+/* Container styling */
+.modify {
+    width: 100%;
+    max-width: 400px;
+    padding: 1.5rem;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    background-color: blueviolet;
+    display: inline-flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.modify h2 {
+    color: white;
+}
+
+/* Form styling */
+.modify form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: blueviolet;
+}
+
+/* Row styling for label and input alignment */
+.modify form section {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Label styling */
+.modify form label {
+    width: 30%; /* Adjust this width to align labels better */
+    text-align: right;
+    color: white;
+}
+
+/* Input styling */
+.modify form input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Submit Button */
+
+.modify form button {
+    margin-top: 0.5rem;
+}
