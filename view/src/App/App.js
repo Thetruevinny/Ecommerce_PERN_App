@@ -9,6 +9,7 @@ import CartPage from '../Features/CartPage';
 import Success from '../Features/Success';
 import ModifyProduct from '../Features/ModifyProduct';
 import CreateProduct from '../Features/CreateProduct';
+import UserPage from '../Features/UserPage';
 
 // Set-up router and various routes
 const router = createBrowserRouter(createRoutesFromElements(
@@ -20,6 +21,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path='success' element={<Success />} />
     <Route path='modify/:id' element={<ModifyProduct />} />
     <Route path='create' element={<CreateProduct />} />
+    <Route path='user' element={<UserPage />} />
   </Route>
 ));
 
