@@ -22,6 +22,7 @@ const registerRouter = require('./Routes/registerRouter');
 const oauthRouter = require('./Routes/oauthRouter');
 const checkoutRouter = require('./Routes/checkoutRouter');
 const checkRouter = require('./Routes/checkRouter');
+const userRouter = require('./Routes/userRouter');
 
 // Change Cors restrictions to match your desires.
 app.use(cors({
@@ -74,11 +75,8 @@ passport.deserializeUser(async (id, done) => {
 passport.use(
     new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, 
         async function (email, password, done) {
-            console.log(email);
-            console.log(password);
             try {
                 const user = await getUserByEmail(email);
-                console.log(user);
                 if (!user) return done(null, false);
                 const verified = await comparePasswords(password, user.password);
                 if (!verified) {
@@ -118,6 +116,9 @@ apiRouter.post(
 });
 // Route for checking user is authenticated/admin.
 apiRouter.use('/api/check', checkRouter);
+
+// Route for processing user information
+apiRouter.use('/api/user', userRouter);
 
 // Route for Checkout using stripe
 apiRouter.use('/api/create-checkout-session', checkoutRouter);

@@ -218,6 +218,15 @@ const createProduct = (name, price, category, quantity, description) => {
     return pool.query(query);
 }
 
+// Change password
+const changePassword = (id, newPassword) => {
+    query = {
+        text: "UPDATE users SET password = $1 WHERE id = $2;",
+        values: [newPassword, id]
+    }
+    return pool.query(query);
+}
+
 
 module.exports = {
     getProducts,
@@ -233,4 +242,5 @@ module.exports = {
     deleteProduct,
     modifyProduct,
     createProduct,
+    changePassword,
 };

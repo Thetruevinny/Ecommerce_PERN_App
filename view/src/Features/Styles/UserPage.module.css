@@ -22,7 +22,6 @@
 }
 
 .listItem {
-    cursor: pointer;
     padding: 0.5rem 1rem;
     background-color: white;
     border-radius: 8px;
@@ -46,6 +45,7 @@
     border-left: 8px solid black;
     margin-right: 0.5rem;
     transition: transform 0.3s;
+    cursor: pointer;
 }
 
 .active .triangle {
