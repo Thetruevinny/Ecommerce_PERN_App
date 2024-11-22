@@ -87,6 +87,7 @@ import { useEffect, useState, useRef } from "react";
 import Styles from "./Styles/UserPage.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { loadToken, selectToken } from "../Components/LoginForm/TokenSlice";
+import { useNavigate } from "react-router";
 
 function UserPage() {
     const [activeItem, setActiveItem] = useState(null);
@@ -95,12 +96,27 @@ function UserPage() {
     const [userId, setUserId] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
-    const orders = [{total: 25, products: [{name: 'Blue T-shirt', price: 10, quantity: 2}, {name: 'Blue Cap', price: 7.50, quantity: 1}]}];
+    const [orders, setOrders] = useState([]);
+    const [verified, setVerified] = useState(false);
+    const navigate = useNavigate();
 
     const handleToggle = (index) => {
         setActiveItem((prev) => (prev === index ? null : index));
     };
 
+    // Check if the user is authenticated if not redirects to login
+    const checkAuth = async () => {
+        const response = await fetch('http://localhost:50423/api/check/auth', {
+            credentials: 'include',
+        });
+        const json = await response.json();
+        setVerified(json.result);
+        if (!json.result) {
+            setTimeout(() => navigate('/login'), 2000);
+        }
+    };
+
+    // Request to backend to retrieve user id
     const getUserId = async () => {
         const response = await fetch('http://localhost:50423/api/user/id', {
             credentials: 'include',
@@ -114,15 +130,39 @@ function UserPage() {
         }
     };
 
+    // Request to backend to retrieve all orders by the current user
+    const getOrders = async () => {
+        console.log(userId);
+        const response = await fetch(`http://localhost:50423/api/user/orders/${userId}`);
+        const result = await response.json();
+        if (response.ok) {
+            setOrders(result.data);
+        } else {
+            setErrorMessage(result.Error);
+            setTimeout(() => {
+                setErrorMessage(null);
+            }, 2000);
+        }
+    }
+
     // Refs for input fields
     const oldPasswordRef = useRef(null);
     const newPasswordRef = useRef(null);
     const newPasswordCheckRef = useRef(null);
 
+    // Calls made on component render to retrieve csrfToken and get user id
     useEffect(() => {
+        checkAuth();
         dispatch(loadToken);
         getUserId();
     }, []);
+
+    // Get all orders for a specific user id
+    useEffect(() => {
+        if (userId) {
+            getOrders(userId);
+        }
+    }, [userId]);
 
     // Handle the password change form submission
     const handlePasswordChange = async (event) => {
@@ -151,6 +191,7 @@ function UserPage() {
             if (response.ok) {
                 // Redirect if the server responded with a redirect URL
                 setSuccessMessage(result.success);
+                setActiveItem(null);
                 // Clear input fields on success
                 oldPasswordRef.current.value = '';
                 newPasswordRef.current.value = '';
@@ -175,9 +216,10 @@ function UserPage() {
                 }
                 setTimeout(() => {
                     setErrorMessage(null);
-                }, 2000)
+                }, 2000);
             }
         } catch (error) {
+            // Error handling
             console.error('Error during password change:', error);
             oldPasswordRef.current.value = '';
             newPasswordRef.current.value = '';
@@ -185,6 +227,11 @@ function UserPage() {
             setErrorMessage('An unexpected error occurred. Please try again.');
         }
     };
+
+    // Authentication check and renders different compoenents dependant on the result
+    if (!verified) {
+        return <p className={Styles.error}>To access this page, you must be logged in. Please wait to be redirected.</p>;
+    }
 
     return (
         <div className={Styles.user}>
@@ -202,16 +249,19 @@ function UserPage() {
                         {(activeItem === index) && (index === 0) ? (
                             <div className={Styles.orders}>
                                 <h3>Order History</h3>
-                                {orders.map((order, orderIndex) => (
-                                    <ul key={orderIndex}>
-                                        {order.products.map((product, productIndex) => (
-                                            <li key={productIndex}>
-                                                {`You bought ${product.quantity} ${product.name}${product.quantity === 1 ? '' : 's'} which cost £${product.price} each.`}
-                                            </li>
-                                        ))}
-                                        <li>Total: £{order.total}</li>
-                                    </ul>
-                                ))}
+                                {orders ? Object.keys(orders).map((key, orderIndex) => (
+                                    <>
+                                        <h4>Order: {orderIndex + 1}</h4>
+                                        <ul key={orderIndex}>
+                                            {orders[key].products.map((product, productIndex) => (
+                                                <li key={productIndex}>
+                                                    {`You bought ${product.quantity} ${product.name}${product.quantity === 1 ? '' : 's'} which cost £${product.price} each.`}
+                                                </li>
+                                            ))}
+                                            <li>Total: £{orders[key].total}</li>
+                                        </ul>
+                                    </>
+                                )): <p>No orders placed currently.</p>}
                             </div>
                         ) : null}
                         {(activeItem === index) && (index === 1) ? (
@@ -225,12 +275,12 @@ function UserPage() {
                                 <input id='newPasswordCheck' name="newPasswordCheck" type="password" placeholder="New password" ref={newPasswordCheckRef} required />
                                 <input type='hidden' name='_csrf' value={csrfToken} />
                                 <button type="submit">Submit</button>
-                                {errorMessage && <p className={Styles.error}>{errorMessage}</p>}
+                                {/* {errorMessage && <p className={Styles.error}>{errorMessage}</p>} */}
                             </form>
                         ) : null}
                     </li>
                 ))}
-                <li style={{color: "white"}} >{successMessage ? successMessage : null}</li>
+                <li style={{color: "white"}} >{successMessage ? successMessage : errorMessage}</li>
             </ul>
         </div>
     );

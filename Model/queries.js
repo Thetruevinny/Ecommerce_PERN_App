@@ -1,4 +1,4 @@
-const { text } = require('express');
+const { text, query } = require('express');
 const pool = require('./db');
 const bcrypt = require('bcrypt');
 
@@ -227,6 +227,15 @@ const changePassword = (id, newPassword) => {
     return pool.query(query);
 }
 
+const getOrders = (userId) => {
+    const query = {
+        text: 'SELECT orders.total, orders_products.quantity, products.name, products.price, orders.id FROM orders JOIN orders_products ON orders.id = orders_products.order_id JOIN products ON products.id = orders_products.product_id WHERE orders.user_id = $1;',
+        values: [userId],
+    }
+
+    return pool.query(query);
+};
+
 
 module.exports = {
     getProducts,
@@ -243,4 +252,5 @@ module.exports = {
     modifyProduct,
     createProduct,
     changePassword,
+    getOrders,
 };
